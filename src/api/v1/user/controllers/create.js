@@ -1,6 +1,6 @@
 /** @format */
 
-const { create } = require("../../../../lib/user");
+const { create, allUsers } = require("../../../../lib/user");
 const createUser = async (req, res, next) => {
   const { name, email, password, role, status } = req.body;
   try {
@@ -22,4 +22,5 @@ const createUser = async (req, res, next) => {
     next(error);
   }
 };
+
 module.exports = createUser;

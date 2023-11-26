@@ -3,7 +3,7 @@
 const { model, Schema } = require("mongoose");
 const reviewSchema = new Schema(
   {
-    rating: {
+    ratting: {
       type: Number,
       require: [true, "Give a rating, it's required."],
     },
@@ -20,7 +20,7 @@ const reviewSchema = new Schema(
       type: Schema.ObjectId,
       ref: "Book",
     },
-    publisher: {
+    author: {
       type: Schema.ObjectId,
       ref: "User",
     },

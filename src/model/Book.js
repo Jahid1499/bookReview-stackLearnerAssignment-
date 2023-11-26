@@ -10,7 +10,7 @@ const bookSchema = new Schema(
       minLength: 5,
       maxLength: 100,
     },
-    author: {
+    writter: {
       type: String,
       require: [true, "Author is required"],
       minLength: 3,
@@ -18,6 +18,7 @@ const bookSchema = new Schema(
     },
     price: {
       type: Number,
+      require: [true, "Price is required"],
       validate: {
         validator: function (v) {
           return v > 0;
@@ -33,19 +34,18 @@ const bookSchema = new Schema(
     },
     cover: {
       type: String,
-      require: [true, "Book cover is required"],
     },
     status: {
       type: String,
       enum: ["draft", "published"],
       default: "draft",
     },
-    publisherID: {
+    author: {
       type: Schema.ObjectId,
       ref: "User",
     },
   },
-  { timestamps: true, id: true }
+  { timestamps: true, id: false }
 );
 
 const Book = model("Book", bookSchema);
