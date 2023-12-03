@@ -31,3 +31,14 @@ Swagger Docs
 ```
 http://localhost:8080/docs
 ```
+
+Data monitoring
+
+```
+http://localhost:8081
+```
+
+```
+user: admin
+password: pass
+```
