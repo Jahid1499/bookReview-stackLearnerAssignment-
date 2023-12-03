@@ -20,9 +20,7 @@ const findAll = async (req, res, next) => {
       writter,
       title,
     });
-    if (books.length === 0) {
-      res.status(404).json({ message: "No book found" });
-    }
+
     const totalItems = await count({ title, publication, writter });
     const totalPage = Math.ceil(totalItems / limit);
 

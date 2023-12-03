@@ -11,12 +11,12 @@ const router = require("express").Router();
 
 // Auth router
 router
-  .post("/api/v1/auth/register", authController.register)
-  .post("/api/v1/auth/login", authController.login);
+  .post("/auth/register", authController.register)
+  .post("/auth/login", authController.login);
 
 // Book router
 router
-  .route("/api/v1/books")
+  .route("/books")
   .get(bookController.findAll)
   .post(
     authentication,
@@ -25,7 +25,7 @@ router
   );
 
 router
-  .route("/api/v1/books/:id")
+  .route("/books/:id")
   .get(bookController.findById)
   .put(
     authentication,
@@ -41,16 +41,16 @@ router
   );
 // Review router
 router
-  .route("/api/v1/books/:id/reviews")
+  .route("/books/:id/reviews")
   .get(reviewController.findForBook)
   .post(
     authentication,
     authorize(["admin", "user"]),
     reviewController.createReview
   );
-router.get("/api/v1/reviews", reviewController.findAll);
+router.get("/reviews", reviewController.findAll);
 router
-  .route("/api/v1/reviews/:id")
+  .route("/reviews/:id")
   .get(reviewController.findOne)
   .put(
     authentication,
@@ -65,11 +65,11 @@ router
     reviewController.deleteOne
   );
 // User router
-router.post("/api/v1/users", userController.createUser);
-router.get("/api/v1/users", userController.getAllUsers);
+router.post("/users", userController.createUser);
+router.get("/users", userController.getAllUsers);
 
 router
-  .route("/api/v1/users/:id")
+  .route("/users/:id")
   .get(authentication, authorize(), userController.findById)
   .patch(authentication, authorize(), userController.updateUser)
   .delete(authentication, authorize(), userController.deleteUser);

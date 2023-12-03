@@ -9,7 +9,7 @@ const app = express();
 applyMiddlewares(app);
 app.use(infoLogger);
 // app.use(terminalLogger);
-app.use(router);
+app.use("/api/v1", router);
 
 app.get("/api/v1/health", (req, res) => {
   console.log(req.headers);

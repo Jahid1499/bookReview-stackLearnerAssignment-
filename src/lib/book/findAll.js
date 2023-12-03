@@ -2,6 +2,7 @@
 
 const Book = require("../../model/Book");
 const defaults = require("../../config/defaults");
+const { notFound } = require("../../utils/error");
 
 const findAll = async ({
   page = defaults.page,
@@ -25,7 +26,9 @@ const findAll = async ({
     .sort(sortStr)
     .skip(page * limit - limit)
     .limit(limit);
-
+  if (books.length === 0) {
+    throw notFound("No books found");
+  }
   return books.map((book) => {
     return {
       ...book._doc,

@@ -3,7 +3,12 @@
 openapi: 3.0.0
 info:
   title: Book Review Open API Documentation
-  description: This is the documentation for book review backend api. you can check all the endpoints here with correct information
+  description: |
+    Book Review is an application to publish books by the publisher and users can share thier thoughts/comments about the books. 
+    We use here 3 Models. 
+    - User: manage users (Admin Only)
+    - Book: manage books (Publisher and Admin)
+    - Review: manage reviews (User and Admin)
   termsOfService: https://jmrana.com/book-review/terms
   contact:
     name: Book Review Support
@@ -50,13 +55,13 @@ paths:
   "/auth/register":
     post:
       tags: [Auth]
-      description: create a new user account
+      description: any user can register an account with their name, email and password. An admin account will create when no user exists on the system. the defaults role is user and status is pending. user can choose the role as user or publisher, but can't continue with admin
       summary: Register a new account. PUBLIC
       requestBody:
         content:
           "application/json":
             schema:
-              $ref: "#/components/schemas/UserDTO"
+              $ref: "#/components/schemas/CreateUserDTO"
       responses:
         "201":
           description: New user created successfull
@@ -101,7 +106,7 @@ paths:
           $ref: "#/components/responses/400"
   "/auth/login":
     post:
-      description: User login endpoints
+      description: any approved user can login on the system with correct credentials. email and password.
       summary: Login a user PUBLIC
       tags: [Auth]
       requestBody:
@@ -119,7 +124,7 @@ paths:
               required: [email, password]
       responses:
         "200":
-          description: User login success
+          description: User login will success and get an access token
           content:
             "application/json":
               schema:
@@ -146,7 +151,7 @@ paths:
     post:
       security:
         - bearerAuth: []
-      description: a publisher/admin can publish a book with required data
+      description: a publisher/admin can publish a book with required data. title must be unique. status will be draft. only Admin can update the book status
       summary: create a new book PRIVATE
       tags: [Book]
       requestBody:
@@ -176,7 +181,7 @@ paths:
         "500":
           $ref: "#/components/responses/500"
     get:
-      description: Book endpoints for create, update, delete and view book lists
+      description: Retrive only published book list. user can search by book title, writter name and publication name.
       summary: Retrive books list PUBLIC
       tags: [Book]
       parameters:
@@ -190,7 +195,7 @@ paths:
 
       responses:
         "200":
-          description: retrive all requested book list
+          description: retrive all published book list
           content:
             "application/json":
               schema:
@@ -237,7 +242,7 @@ paths:
                         example: "/books?page=3&limit=10"
   "/books/{id}":
     get:
-      description: get a single book by id
+      description: get a single book by id. book status must be published
       summary: get a book by id PUBLIC
       tags: [Book]
       parameters:
@@ -839,10 +844,6 @@ components:
     CreateUserDTO:
       type: object
       properties:
-        id:
-          type: integer
-          format: int32
-          example: 12
         name:
           type: string
           example: Masud Rana
@@ -860,7 +861,7 @@ components:
           type: string
           enum: [pending, approved, blocked, declined]
           example: pending
-      required: [name, email, password, role]
+      required: [name, email, password]
     AuthorDTO:
       type: object
       properties:
